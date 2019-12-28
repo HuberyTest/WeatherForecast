@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class WeatherForecastServiceImpl implements WeatherForecastService {
 
   @Autowired
-  private WeatherForecastQuery weatherForecastQuery;
+  private ForecastQuery forecastQuery;
 
   private LoadingCache<Integer, GeneralWeatherReport> reportCache;
 
@@ -32,7 +32,7 @@ public class WeatherForecastServiceImpl implements WeatherForecastService {
                       @Override
                       public GeneralWeatherReport load(Integer cityId) {
                         try {
-                          return weatherForecastQuery.getWeatherReport(cityId);
+                          return forecastQuery.getWeatherReport(cityId);
                         } catch (Exception e) {
                           //cache empty report in case of any error
                           log.error("query weather report {} error {}", cityId, e.getMessage());

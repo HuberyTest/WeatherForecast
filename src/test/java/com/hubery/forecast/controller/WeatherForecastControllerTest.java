@@ -5,10 +5,8 @@ import com.hubery.forecast.api.ErrorCode;
 import com.hubery.forecast.base.SpringTestBase;
 import com.hubery.forecast.domain.CityInfo;
 import com.hubery.forecast.domain.GeneralWeatherReport;
-import com.hubery.forecast.repo.CityDataRepository;
-import com.hubery.forecast.service.WeatherForecastQuery;
+import com.hubery.forecast.service.ForecastQuery;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.ParameterizedTypeReference;
 
@@ -22,7 +20,7 @@ class WeatherForecastControllerTest extends SpringTestBase {
 
 
   @MockBean
-  private WeatherForecastQuery weatherForecastQuery;
+  private ForecastQuery forecastQuery;
 
   @Test
   public void listCities() {
@@ -36,7 +34,7 @@ class WeatherForecastControllerTest extends SpringTestBase {
     String mockWeather = "scattered clouds";
     GeneralWeatherReport mockReport = new GeneralWeatherReport();
     mockReport.setWeather(mockWeather);
-    when(weatherForecastQuery.getWeatherReport(anyInt())).thenReturn(mockReport);
+    when(forecastQuery.getWeatherReport(anyInt())).thenReturn(mockReport);
 
     ApiResult<GeneralWeatherReport> result = getApiResult("/v1/forecast/city/{cityId}", new ParameterizedTypeReference<ApiResult<GeneralWeatherReport>>() {}, 1);
     assertThat(result.getCode()).isEqualTo(ErrorCode.OK.getCode());

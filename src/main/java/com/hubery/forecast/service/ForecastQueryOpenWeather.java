@@ -21,7 +21,7 @@ import java.util.Properties;
  */
 @Conditional(OpenWeatherCondition.class)
 @Component
-public class QuerySourceOpenWeather implements WeatherForecastQuery {
+public class ForecastQueryOpenWeather implements ForecastQuery {
 
   private RestTemplate restTemplate = new RestTemplate();
 
@@ -48,7 +48,9 @@ public class QuerySourceOpenWeather implements WeatherForecastQuery {
       throw new WeatherForecastException(ErrorCode.INVALID_PARAMETER, "Invalid city id");
     } else {
       WeatherReport weatherReport = queryWeatherReport(siteCityId.toString());
-      return convertToGeneralReport(weatherReport);
+      GeneralWeatherReport generalReport = convertToGeneralReport(weatherReport);
+      generalReport.setCityId(cityId);
+      return generalReport;
     }
   }
 

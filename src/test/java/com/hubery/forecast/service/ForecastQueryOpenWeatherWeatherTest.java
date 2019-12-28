@@ -7,11 +7,11 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QuerySourceOpenWeatherTest {
+class ForecastQueryOpenWeatherWeatherTest {
 
   @Test
   void getWeatherReport() throws IOException {
-    QuerySourceOpenWeather openWeather = new QuerySourceOpenWeather();
+    ForecastQueryOpenWeather openWeather = new ForecastQueryOpenWeather();
     openWeather.init();
     assertThrows(WeatherForecastException.class, () -> openWeather.getWeatherReport(-1));
   }

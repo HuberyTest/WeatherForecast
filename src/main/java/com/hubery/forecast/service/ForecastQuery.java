@@ -5,7 +5,7 @@ import com.hubery.forecast.domain.GeneralWeatherReport;
 /**
  * Provide different api provider by this interface.
  */
-public interface WeatherForecastQuery {
+public interface ForecastQuery {
 
   /**
    * Query by our own city id

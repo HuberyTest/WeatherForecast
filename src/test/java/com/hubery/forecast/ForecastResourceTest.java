@@ -1,6 +1,7 @@
 package com.hubery.forecast;
 
 import com.hubery.forecast.domain.openweather.WeatherReport;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;

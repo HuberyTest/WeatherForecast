@@ -1,4 +1,4 @@
-package com.hubery.forecast.domain.openWeather;
+package com.hubery.forecast.domain.openweather;
 
 import lombok.Data;
 

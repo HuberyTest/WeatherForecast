@@ -3,6 +3,7 @@ package com.hubery.forecast.repo;
 import com.hubery.forecast.domain.CityInfo;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CityDataTextRepositoryTest {
 
   @Test
-  void listCities() {
+  void listCities() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
     List<CityInfo> cityInfoList = textRepository.listCities();
@@ -18,7 +19,7 @@ class CityDataTextRepositoryTest {
   }
 
   @Test
-  void addCity() {
+  void addCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
     textRepository.addCity(new CityInfo(4, "test city"));
@@ -27,7 +28,7 @@ class CityDataTextRepositoryTest {
   }
 
   @Test
-  void updateCity() {
+  void updateCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
     textRepository.updateCity(new CityInfo(1, "changedName"));
@@ -37,7 +38,7 @@ class CityDataTextRepositoryTest {
   }
 
   @Test
-  void removeCity() {
+  void removeCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
     textRepository.removeCity(1);

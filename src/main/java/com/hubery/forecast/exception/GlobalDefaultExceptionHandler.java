@@ -10,12 +10,12 @@ public class GlobalDefaultExceptionHandler {
 
     @ExceptionHandler(WeatherForecastException.class)
     public ApiResult handleWeatherForecastException(WeatherForecastException ex) {
-        return ApiResult.error(ex.getErrorCode(), ex.getMsg());
+        return new ApiResult(ex.getErrorCode(), ex.getMsg());
     }
 
     @ExceptionHandler(Exception.class)
     public ApiResult handleArgumentsErr() {
-        return ApiResult.error(ErrorCode.INTERNAL_ERROR, ErrorCode.INTERNAL_ERROR.getDescription());
+        return new ApiResult(ErrorCode.INTERNAL_ERROR, ErrorCode.INTERNAL_ERROR.getDescription());
     }
 
 }

@@ -2,14 +2,17 @@ package com.hubery.forecast.repo;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hubery.forecast.api.ErrorCode;
 import com.hubery.forecast.config.TextRepoCondition;
 import com.hubery.forecast.domain.CityInfo;
+import com.hubery.forecast.exception.WeatherForecastException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +27,11 @@ public class CityDataTextRepository implements CityDataRepository {
   private List<CityInfo> cityInfos = new ArrayList<>();
 
   @PostConstruct
-  public void init() {
-    try {
-      ClassPathResource cityResource = new ClassPathResource("/cities/cities.json");
-      ObjectMapper mapper = new ObjectMapper();
-      JavaType cityInfoType = mapper.getTypeFactory().constructParametricType(List.class, CityInfo.class);
-      cityInfos = mapper.readValue(cityResource.getInputStream(), cityInfoType);
-    } catch (Exception e) {
-      log.info("Read city data failed for {}", e.getMessage());
-      e.printStackTrace();
-    }
+  public void init() throws IOException {
+    ClassPathResource cityResource = new ClassPathResource("/cities/cities.json");
+    ObjectMapper mapper = new ObjectMapper();
+    JavaType cityInfoType = mapper.getTypeFactory().constructParametricType(List.class, CityInfo.class);
+    cityInfos = mapper.readValue(cityResource.getInputStream(), cityInfoType);
   }
 
   @Override
@@ -65,6 +63,8 @@ public class CityDataTextRepository implements CityDataRepository {
     CityInfo found = foundById(cityInfo.getId());
     if (found != null) {
       found.setName(cityInfo.getName());
+    } else {
+      throw new WeatherForecastException(ErrorCode.INVALID_PARAMETER, "City not exists");
     }
   }
 
@@ -73,6 +73,8 @@ public class CityDataTextRepository implements CityDataRepository {
     CityInfo found = foundById(cityId);
     if (found != null) {
       cityInfos.remove(found);
+    } else {
+      throw new WeatherForecastException(ErrorCode.INVALID_PARAMETER, "City not exists");
     }
   }
 }

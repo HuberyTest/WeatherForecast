@@ -10,5 +10,5 @@ public class GeneralWeatherReport {
 
   private Integer temperature;
 
-  private Integer windSpeed;
+  private Double windSpeed;
 }

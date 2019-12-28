@@ -1,40 +1,27 @@
 package com.hubery.forecast.api;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class ApiResult {
+public class ApiResult<T> {
   private Integer code;
-  private Object data;
+  private T data;
   private String message;
 
-  public ApiResult() {
-  }
+  /**
+   * for serialization
+   */
+  public ApiResult() {}
 
-  public ApiResult(ErrorCode errorCode, String message, Object data) {
-    this.code = errorCode.getCode();
-    this.message = message;
+  public ApiResult(T data) {
+    this.code = ErrorCode.OK.getCode();
     this.data = data;
   }
 
-  public ApiResult(ErrorCode errorCode, Object data) {
+  public ApiResult(ErrorCode errorCode, T data) {
     this.code = errorCode.getCode();
     this.message = errorCode.getDescription();
     this.data = data;
-  }
-
-  public static ApiResult success() {
-    return success(null);
-  }
-
-  public static ApiResult success(Object data) {
-    return new ApiResult(ErrorCode.OK, data);
-  }
-
-  public static ApiResult error(ErrorCode errorCode, String message) {
-    return new ApiResult(errorCode, message, null);
   }
 
 }

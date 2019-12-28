@@ -1,12 +1,16 @@
 package com.hubery.forecast.service;
 
-import com.hubery.forecast.domain.CityInfo;
+import com.hubery.forecast.domain.GeneralWeatherReport;
 
-import java.util.List;
 
 /**
- *
+ * Query weather forecast report service
  */
 public interface WeatherForecastService {
-  List<CityInfo> listCites();
+  /**
+   * query the weather forecast report by cityId
+   * @param cityId
+   * @return
+   */
+  GeneralWeatherReport queryWeatherReport(Integer cityId);
 }

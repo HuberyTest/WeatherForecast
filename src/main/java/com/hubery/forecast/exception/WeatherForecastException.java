@@ -4,7 +4,7 @@ import com.hubery.forecast.api.ErrorCode;
 import lombok.Getter;
 
 @Getter
-public class WeatherForecastException extends Exception {
+public class WeatherForecastException extends RuntimeException {
   private ErrorCode errorCode;
 
   private String msg;

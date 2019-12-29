@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache  name="learncache" updateCheck="false">
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+    <cache name="cities"
+           maxElementsInMemory="10"
+           eternal="false"
+           timeToIdleSeconds="3600"
+           timeToLiveSeconds="3600"
+           maxElementsOnDisk="10"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="none"/>
+    </cache>
+    <cache name="forecastReport"
+        maxElementsInMemory="100"
+        eternal="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="300"
+        maxElementsOnDisk="100"
+        diskExpiryThreadIntervalSeconds="300"
+        memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="none"/>
+    </cache>
+</ehcache>

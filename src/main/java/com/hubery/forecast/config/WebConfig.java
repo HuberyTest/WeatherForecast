@@ -1,11 +1,13 @@
 package com.hubery.forecast.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableCaching
 public class WebConfig implements WebMvcConfigurer {
 
   @Value("${forecast.frontend}")
@@ -14,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-            .allowedOrigins("http://localhost:3000")
+            .allowedOrigins(frontUrl)
             .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
             .allowedHeaders("*")
             .allowCredentials(true);

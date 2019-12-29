@@ -1,12 +1,12 @@
 package com.hubery.forecast.service;
 
 import com.hubery.forecast.api.ErrorCode;
-import com.hubery.forecast.config.OpenWeatherCondition;
 import com.hubery.forecast.domain.GeneralWeatherReport;
+import com.hubery.forecast.domain.enums.ForecastQuerySourceEnum;
 import com.hubery.forecast.domain.openweather.WeatherReport;
 import com.hubery.forecast.exception.WeatherForecastException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Conditional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +19,7 @@ import java.util.Properties;
 /**
  * Implementation for online api provider openweathermap.org
  */
-@Conditional(OpenWeatherCondition.class)
+@ConditionalOnProperty(name = "forecast.source", havingValue = "ForecastQueryOpenWeather")
 @Component
 public class ForecastQueryOpenWeather implements ForecastQuery {
 
@@ -36,7 +36,8 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
   @PostConstruct
   public void init() throws IOException {
     //Api providers may have different id for each city。So we map them to our own city id in file.
-    ClassPathResource idMappingResource = new ClassPathResource("/cities/openWeather_IdMapping.properties");
+    String mapingFile = "/cities/" + ForecastQuerySourceEnum.openweather.getIdMappingFile();
+    ClassPathResource idMappingResource = new ClassPathResource(mapingFile);
     idMapping.load(idMappingResource.getInputStream());
   }
 

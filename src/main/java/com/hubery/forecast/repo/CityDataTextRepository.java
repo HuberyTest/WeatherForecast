@@ -3,11 +3,10 @@ package com.hubery.forecast.repo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hubery.forecast.api.ErrorCode;
-import com.hubery.forecast.config.TextRepoCondition;
 import com.hubery.forecast.domain.CityInfo;
 import com.hubery.forecast.exception.WeatherForecastException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Conditional;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-@Conditional(TextRepoCondition.class)
+@ConditionalOnProperty(name = "cityinfo.storage", havingValue = "text")
 public class CityDataTextRepository implements CityDataRepository {
 
   private List<CityInfo> cityInfos = new ArrayList<>();

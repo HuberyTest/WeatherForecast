@@ -19,8 +19,7 @@ import java.util.Properties;
 /**
  * Implementation for online api provider openweathermap.org
  */
-@ConditionalOnProperty(name = "forecast.source", havingValue = "ForecastQueryOpenWeather")
-@Component
+@Component("openweather")
 public class ForecastQueryOpenWeather implements ForecastQuery {
 
   private RestTemplate restTemplate = new RestTemplate();
@@ -58,7 +57,7 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
   /**
    * Convert to the unified weather report
    * @param weatherReport result of api provider
-   * @return
+   * @return GeneralWeatherReport
    */
   private GeneralWeatherReport convertToGeneralReport(WeatherReport weatherReport) {
     GeneralWeatherReport report = new GeneralWeatherReport();
@@ -67,7 +66,7 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
 
     //kelvin -> celsius
     BigDecimal bd = new BigDecimal(weatherReport.getMain().getTemp() - 273.15);
-    bd.setScale(0, BigDecimal.ROUND_HALF_UP);
+    bd = bd.setScale(0, BigDecimal.ROUND_HALF_UP);
     report.setTemperature(bd.intValue());
 
     report.setWeather(weatherReport.getWeather()[0].getDescription());
@@ -79,8 +78,8 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
 
   /**
    * Query by city id by api provider
-   * @param cityId
-   * @return
+   * @param cityId id by api provider
+   * @return Report by api provider
    */
   private WeatherReport queryWeatherReport(String cityId) {
     return restTemplate.getForObject(url, WeatherReport.class, cityId, appId);

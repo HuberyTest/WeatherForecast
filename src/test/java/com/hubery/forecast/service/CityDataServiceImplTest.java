@@ -4,7 +4,6 @@ import com.hubery.forecast.base.SpringTestBase;
 import com.hubery.forecast.repo.CityDataRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import static org.assertj.core.api.Assertions.assertThat;

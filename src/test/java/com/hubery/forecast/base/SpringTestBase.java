@@ -15,12 +15,12 @@ public class SpringTestBase {
   /**
    * query Genericity apiResult
    */
-  public <T> T getApiResult(String url, ParameterizedTypeReference<T> resultType, Object... urlVariables) {
+  protected  <T> T getApiResult(String url, ParameterizedTypeReference<T> resultType, Object... urlVariables) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity reqEntity = new HttpEntity(headers, null);
-    ResponseEntity<T> result = testRestTemplate.exchange(url, HttpMethod.GET, reqEntity, resultType, 1);
+    HttpEntity reqEntity = new HttpEntity<>( null, headers);
+    ResponseEntity<T> result = testRestTemplate.exchange(url, HttpMethod.GET, reqEntity, resultType, urlVariables);
     return result.getBody();
   }
 }

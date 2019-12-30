@@ -26,12 +26,12 @@ public class WeatherForecastController {
   @GetMapping("/cities")
   public ApiResult<List<CityInfo>> listCities() {
     List<CityInfo> cityInfos = cityDataService.listCities();
-    return new ApiResult(cityInfos);
+    return new ApiResult<>(cityInfos);
   }
 
   @GetMapping("/city/{cityId}")
   public ApiResult<GeneralWeatherReport> queryCityWeatherReport(@PathVariable("cityId") Integer cityId) {
     GeneralWeatherReport report = weatherForecastService.queryWeatherReport(cityId);
-    return new ApiResult(report);
+    return new ApiResult<>(report);
   }
 }

@@ -18,4 +18,4 @@
         3.  Usually the weather forecast is queried by the city id provided by the Api provider. 
             So the id mappings should be stored in a properties file.
             The file should be put in resources/cities and the file name can be specified in ForecastQuerySourceEnum.
-        4.  Configure the parameter forecast.source to use the simple class name of new implementation in application.properties.
+        4.  Configure the parameter forecast.source to use component name of new implementation in application.properties.

@@ -8,17 +8,18 @@ import com.hubery.forecast.domain.GeneralWeatherReport;
 import com.hubery.forecast.service.ForecastQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 class WeatherForecastControllerTest extends SpringTestBase {
 
 
+  //@SpyBean
   @MockBean
   private ForecastQuery forecastQuery;
 
@@ -34,9 +35,11 @@ class WeatherForecastControllerTest extends SpringTestBase {
     String mockWeather = "scattered clouds";
     GeneralWeatherReport mockReport = new GeneralWeatherReport();
     mockReport.setWeather(mockWeather);
-    when(forecastQuery.getWeatherReport(anyInt())).thenReturn(mockReport);
 
-    ApiResult<GeneralWeatherReport> result = getApiResult("/v1/forecast/city/{cityId}", new ParameterizedTypeReference<ApiResult<GeneralWeatherReport>>() {}, 1);
+    int cityId = 1;
+    when(forecastQuery.getWeatherReport(cityId)).thenReturn(mockReport);
+
+    ApiResult<GeneralWeatherReport> result = getApiResult("/v1/forecast/city/{cityId}", new ParameterizedTypeReference<ApiResult<GeneralWeatherReport>>() {}, cityId);
     assertThat(result.getCode()).isEqualTo(ErrorCode.OK.getCode());
     assertThat(result.getData().getWeather()).isEqualTo(mockWeather);
   }

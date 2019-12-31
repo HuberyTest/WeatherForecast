@@ -8,7 +8,7 @@ public enum ErrorCode {
 
     OK(20000, "OK"),
     INTERNAL_ERROR(20001, "Internal Error"),
-    INVALID_PARAMETER(20002, "Invalid Parameters");
+    API_QUERY_ERROR(20003, "Open Api fail");
 
     @Getter
     private final Integer code;

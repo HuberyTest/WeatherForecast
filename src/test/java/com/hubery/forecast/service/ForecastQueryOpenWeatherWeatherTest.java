@@ -4,6 +4,7 @@ import com.hubery.forecast.exception.WeatherForecastException;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +14,6 @@ class ForecastQueryOpenWeatherWeatherTest {
   void getWeatherReport() throws IOException {
     ForecastQueryOpenWeather openWeather = new ForecastQueryOpenWeather();
     openWeather.init();
-    assertThrows(WeatherForecastException.class, () -> openWeather.getWeatherReport(-1));
+    assertThrows(InvalidParameterException.class, () -> openWeather.getWeatherReport(-1));
   }
 }

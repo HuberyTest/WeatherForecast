@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class CityDataTextRepository implements CityDataRepository {
     if (found != null) {
       found.setName(cityInfo.getName());
     } else {
-      throw new WeatherForecastException(ErrorCode.INVALID_PARAMETER, "City not exists");
+      throw new InvalidParameterException("City not exists");
     }
   }
 
@@ -73,7 +74,7 @@ public class CityDataTextRepository implements CityDataRepository {
     if (found != null) {
       cityInfos.remove(found);
     } else {
-      throw new WeatherForecastException(ErrorCode.INVALID_PARAMETER, "City not exists");
+      throw new InvalidParameterException("City not exists");
     }
   }
 }

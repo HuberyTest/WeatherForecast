@@ -2,6 +2,7 @@ package com.hubery.forecast.service;
 
 import com.hubery.forecast.base.SpringTestBase;
 import com.hubery.forecast.domain.GeneralWeatherReport;
+import com.hubery.forecast.exception.WeatherForecastException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,7 +20,7 @@ class WeatherForecastServiceImplTest extends SpringTestBase {
   private WeatherForecastService forecastService;
 
   @Test
-  void testCache() {
+  void testCache() throws WeatherForecastException {
     when(forecastQuery.getWeatherReport(anyInt())).thenReturn(new GeneralWeatherReport());
     GeneralWeatherReport report = forecastService.queryWeatherReport(1);
     assertThat(report).isNotNull();

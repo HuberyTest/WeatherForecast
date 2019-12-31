@@ -5,6 +5,7 @@ import com.hubery.forecast.api.ErrorCode;
 import com.hubery.forecast.base.SpringTestBase;
 import com.hubery.forecast.domain.CityInfo;
 import com.hubery.forecast.domain.GeneralWeatherReport;
+import com.hubery.forecast.exception.WeatherForecastException;
 import com.hubery.forecast.service.ForecastQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,6 +25,7 @@ class WeatherForecastControllerTest extends SpringTestBase {
   private ForecastQuery forecastQuery;
 
   @Test
+  @SuppressWarnings("WeakerAccess")
   public void listCities() {
     ApiResult<List<CityInfo>> result = getApiResult("/v1/forecast/cities", new ParameterizedTypeReference<ApiResult<List<CityInfo>>>() {});
     assertThat(result.getCode()).isEqualTo(ErrorCode.OK.getCode());
@@ -31,7 +33,8 @@ class WeatherForecastControllerTest extends SpringTestBase {
   }
 
   @Test
-  public void queryCityWeather() {
+  @SuppressWarnings("WeakerAccess")
+  public void queryCityWeather() throws WeatherForecastException {
     String mockWeather = "scattered clouds";
     GeneralWeatherReport mockReport = new GeneralWeatherReport();
     mockReport.setWeather(mockWeather);

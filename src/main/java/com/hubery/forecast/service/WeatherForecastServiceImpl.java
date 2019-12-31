@@ -12,20 +12,29 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WeatherForecastServiceImpl implements WeatherForecastService {
 
-  @Autowired
   private ApplicationContext applicationContext;
+
+  @Autowired
+  public WeatherForecastServiceImpl(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
   @Value("${forecast.provider}")
   private String forecastProviderNamee;
 
   private ForecastQuery getForecastProvider() {
-    //in case to switch the provider at runtime
+    //In case to switch the provider at runtime
     return applicationContext.getBean(forecastProviderNamee, ForecastQuery.class);
   }
 
   @Override
   @Cacheable(value = "forecastReport")
   public GeneralWeatherReport queryWeatherReport(Integer cityId) {
-    return getForecastProvider().getWeatherReport(cityId);
+    try {
+      return getForecastProvider().getWeatherReport(cityId);
+    } catch (Exception e) {
+      //Cache the empty report for any error, query after 5 minutes if any error
+      return new GeneralWeatherReport();
+    }
   }
 }

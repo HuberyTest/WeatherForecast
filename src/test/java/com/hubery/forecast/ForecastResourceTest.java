@@ -1,17 +1,19 @@
 package com.hubery.forecast;
 
+import com.hubery.forecast.api.ApiResult;
 import com.hubery.forecast.domain.openweather.WeatherReport;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CountDownLatch;
+
 @Slf4j
-@SuppressWarnings("WeakerAccess")
+@Disabled
 public class ForecastResourceTest {
 
   @Test
-  @Ignore
   public void testOpenWeather() {
     RestTemplate rt = new RestTemplate();
     String appId = "62976abd493350075f9d1be43cbfaaf9";
@@ -26,5 +28,20 @@ public class ForecastResourceTest {
     } else {
       log.info("api not available");
     }
+  }
+
+  @Test
+  public void testPerformance() throws InterruptedException {
+    //Open Api should be queried for once
+    int cnt = 10;
+    CountDownLatch cdl = new CountDownLatch(cnt);
+    for (int i=0; i<cnt; i++) {
+      new Thread(() -> {
+        RestTemplate rt = new RestTemplate();
+        ApiResult ar = rt.getForObject("http://localhost:9080/api/v1/forecast/city/1", ApiResult.class);
+        cdl.countDown();
+      }).start();
+    }
+    cdl.await();
   }
 }

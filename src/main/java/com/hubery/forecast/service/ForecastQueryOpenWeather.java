@@ -2,22 +2,15 @@ package com.hubery.forecast.service;
 
 import com.hubery.forecast.api.ErrorCode;
 import com.hubery.forecast.domain.GeneralWeatherReport;
-import com.hubery.forecast.domain.enums.ForecastQuerySourceEnum;
 import com.hubery.forecast.domain.openweather.WeatherReport;
 import com.hubery.forecast.exception.WeatherForecastException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.client.ClientHttpRequestInitializer;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.security.InvalidParameterException;
-import java.util.Properties;
 
 /**
  * Implementation for online api provider openweathermap.org
@@ -34,29 +27,13 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
   @Value("${openweather.appId}")
   private String appId;
 
-  private Properties idMapping = new Properties();
-
-  @PostConstruct
-  public void init() throws IOException {
-    //Api providers may have different id for each city。So we map them to our own city id in file.
-    String mapingFile = "/cities/" + ForecastQuerySourceEnum.openweather.getIdMappingFile();
-    ClassPathResource idMappingResource = new ClassPathResource(mapingFile);
-    idMapping.load(idMappingResource.getInputStream());
-
-  }
-
   @Override
-  public GeneralWeatherReport getWeatherReport(Integer cityId) throws WeatherForecastException {
-    //Get the city id provided by the api provider
-    Object siteCityId = idMapping.get(cityId.toString());
-    if (siteCityId == null) {
-      throw new InvalidParameterException("Invalid city id");
-    } else {
-      WeatherReport weatherReport = queryWeatherReport(siteCityId.toString());
-      GeneralWeatherReport generalReport = convertToGeneralReport(weatherReport);
-      generalReport.setCityId(cityId);
-      return generalReport;
-    }
+  @Cacheable(value = "forecastReport")
+  public GeneralWeatherReport getWeatherReport(String siteCityId) throws WeatherForecastException {
+    WeatherReport weatherReport = queryWeatherReport(siteCityId);
+    GeneralWeatherReport generalReport = convertToGeneralReport(weatherReport);
+    generalReport.setCityId(siteCityId);
+    return generalReport;
   }
 
   /**
@@ -64,7 +41,7 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
    * @param weatherReport result of api provider
    * @return GeneralWeatherReport
    */
-  private GeneralWeatherReport convertToGeneralReport(WeatherReport weatherReport) {
+  public GeneralWeatherReport convertToGeneralReport(WeatherReport weatherReport) {
     GeneralWeatherReport report = new GeneralWeatherReport();
     //UTC
     report.setUpdateTime(weatherReport.getDt());
@@ -88,9 +65,11 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
    */
   private WeatherReport queryWeatherReport(String cityId) throws WeatherForecastException {
     try {
+      log.info("query open Api for city {}", cityId);
       return restTemplate.getForObject(url, WeatherReport.class, cityId, appId);
     } catch (Exception e) {
       log.info("query open weather fail {} {}", cityId, e.getMessage());
+      e.printStackTrace();
       throw new WeatherForecastException(ErrorCode.API_QUERY_ERROR, e.getMessage());
     }
   }

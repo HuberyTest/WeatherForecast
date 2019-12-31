@@ -17,11 +17,14 @@ import java.util.List;
 @RequestMapping("/v1/forecast")
 public class WeatherForecastController {
 
-  @Autowired
   private WeatherForecastService weatherForecastService;
+  private CityDataService cityDataService;
 
   @Autowired
-  private CityDataService cityDataService;
+  public WeatherForecastController(WeatherForecastService weatherForecastService, CityDataService cityDataService) {
+    this.weatherForecastService = weatherForecastService;
+    this.cityDataService = cityDataService;
+  }
 
   @GetMapping("/cities")
   public ApiResult<List<CityInfo>> listCities() {
@@ -30,7 +33,7 @@ public class WeatherForecastController {
   }
 
   @GetMapping("/city/{cityId}")
-  public ApiResult<GeneralWeatherReport> queryCityWeatherReport(@PathVariable("cityId") Integer cityId) {
+  public ApiResult<GeneralWeatherReport> queryCityWeatherReport(@PathVariable("cityId") String cityId) {
     GeneralWeatherReport report = weatherForecastService.queryWeatherReport(cityId);
     return new ApiResult<>(report);
   }

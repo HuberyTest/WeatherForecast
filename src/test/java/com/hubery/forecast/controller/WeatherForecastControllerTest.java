@@ -9,7 +9,6 @@ import com.hubery.forecast.exception.WeatherForecastException;
 import com.hubery.forecast.service.ForecastQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
@@ -39,11 +38,13 @@ class WeatherForecastControllerTest extends SpringTestBase {
     GeneralWeatherReport mockReport = new GeneralWeatherReport();
     mockReport.setWeather(mockWeather);
 
-    int cityId = 1;
-    when(forecastQuery.getWeatherReport(cityId)).thenReturn(mockReport);
+    String cityId = "1";
+    String siteCityId = "2158177";
+    when(forecastQuery.getWeatherReport(siteCityId)).thenReturn(mockReport);
 
     ApiResult<GeneralWeatherReport> result = getApiResult("/v1/forecast/city/{cityId}", new ParameterizedTypeReference<ApiResult<GeneralWeatherReport>>() {}, cityId);
     assertThat(result.getCode()).isEqualTo(ErrorCode.OK.getCode());
+    assertThat(result.getData()).isNotNull();
     assertThat(result.getData().getWeather()).isEqualTo(mockWeather);
   }
 }

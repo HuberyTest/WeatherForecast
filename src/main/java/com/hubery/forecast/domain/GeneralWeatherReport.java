@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class GeneralWeatherReport {
-  private Integer cityId;
+  private String cityId;
 
   private Long updateTime;
 

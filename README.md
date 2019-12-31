@@ -10,7 +10,7 @@
 
     > external dependency: access restful api provided by https://openweathermap.org/ for weather forecast data.
 
-### User Guid:
+### for developer:
     > How to add a city for weather forecast? Add a entry in resources/cities/cities.json。Give it a unique id and name
     > How to add a forecast data source implementation? 
         1.  Add a new source name to ForecastQuerySourceEnum. 

@@ -39,7 +39,7 @@ public class CityDataTextRepository implements CityDataRepository {
     return cityInfos;
   }
 
-  private CityInfo foundById(Integer cityId) {
+  private CityInfo foundById(String cityId) {
     for (CityInfo cityInfo : cityInfos) {
       if (cityInfo.getId().equals(cityId)) {
         return cityInfo;
@@ -69,7 +69,7 @@ public class CityDataTextRepository implements CityDataRepository {
   }
 
   @Override
-  public synchronized void removeCity(Integer cityId) {
+  public synchronized void removeCity(String cityId) {
     CityInfo found = foundById(cityId);
     if (found != null) {
       cityInfos.remove(found);

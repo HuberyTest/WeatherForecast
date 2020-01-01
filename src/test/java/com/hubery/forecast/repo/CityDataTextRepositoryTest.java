@@ -22,7 +22,7 @@ class CityDataTextRepositoryTest {
   void addCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
-    textRepository.addCity(new CityInfo(4, "test city"));
+    textRepository.addCity(new CityInfo("4", "test city"));
     List<CityInfo> cityInfoList = textRepository.listCities();
     assertThat(cityInfoList.size()).isEqualTo(4);
   }
@@ -31,7 +31,7 @@ class CityDataTextRepositoryTest {
   void updateCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
-    textRepository.updateCity(new CityInfo(1, "changedName"));
+    textRepository.updateCity(new CityInfo("1", "changedName"));
     List<CityInfo> cityInfoList = textRepository.listCities();
     long cnt = cityInfoList.stream().filter(r -> r.getName().equals("changedName")).count();
     assertThat(cnt).isEqualTo(1);
@@ -41,7 +41,7 @@ class CityDataTextRepositoryTest {
   void removeCity() throws IOException {
     CityDataTextRepository textRepository = new CityDataTextRepository();
     textRepository.init();
-    textRepository.removeCity(1);
+    textRepository.removeCity("1");
     List<CityInfo> cityInfoList = textRepository.listCities();
     assertThat(cityInfoList.size()).isEqualTo(2); //, "Two cities left");
   }

@@ -18,7 +18,6 @@ import static org.mockito.Mockito.when;
 
 class WeatherForecastControllerTest extends SpringTestBase {
 
-
   //@SpyBean
   @MockBean
   private ForecastQuery forecastQuery;
@@ -39,12 +38,13 @@ class WeatherForecastControllerTest extends SpringTestBase {
     mockReport.setWeather(mockWeather);
 
     String cityId = "1";
-    String siteCityId = "2158177";
-    when(forecastQuery.getWeatherReport(siteCityId)).thenReturn(mockReport);
+    when(forecastQuery.getWeatherReport(cityId)).thenReturn(mockReport);
 
     ApiResult<GeneralWeatherReport> result = getApiResult("/v1/forecast/city/{cityId}", new ParameterizedTypeReference<ApiResult<GeneralWeatherReport>>() {}, cityId);
     assertThat(result.getCode()).isEqualTo(ErrorCode.OK.getCode());
     assertThat(result.getData()).isNotNull();
     assertThat(result.getData().getWeather()).isEqualTo(mockWeather);
   }
+
+
 }

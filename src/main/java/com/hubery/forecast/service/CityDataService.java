@@ -14,5 +14,5 @@ public interface CityDataService {
 
   void updateCity(CityInfo cityInfo);
 
-  void removeCity(Integer cityId);
+  void removeCity(String cityId);
 }

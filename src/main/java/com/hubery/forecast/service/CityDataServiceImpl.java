@@ -31,7 +31,7 @@ public class CityDataServiceImpl implements CityDataService {
   }
 
   @Override
-  public void removeCity(Integer cityId) {
+  public void removeCity(String cityId) {
     cityDataRepository.removeCity(cityId);
   }
 }

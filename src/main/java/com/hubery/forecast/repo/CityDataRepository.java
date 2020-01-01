@@ -15,5 +15,5 @@ public interface CityDataRepository {
 
   void updateCity(CityInfo cityInfo);
 
-  void removeCity(Integer cityId);
+  void removeCity(String cityId);
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CityInfo {
 
-  private Integer id;
+  private String id;
 
   private String name;
 

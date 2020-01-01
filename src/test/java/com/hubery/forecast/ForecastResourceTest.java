@@ -1,13 +1,10 @@
 package com.hubery.forecast;
 
-import com.hubery.forecast.api.ApiResult;
 import com.hubery.forecast.domain.openweather.WeatherReport;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 @Disabled
@@ -30,18 +27,5 @@ public class ForecastResourceTest {
     }
   }
 
-  @Test
-  public void testPerformance() throws InterruptedException {
-    //Open Api should be queried for once
-    int cnt = 10;
-    CountDownLatch cdl = new CountDownLatch(cnt);
-    for (int i=0; i<cnt; i++) {
-      new Thread(() -> {
-        RestTemplate rt = new RestTemplate();
-        ApiResult ar = rt.getForObject("http://localhost:9080/api/v1/forecast/city/1", ApiResult.class);
-        cdl.countDown();
-      }).start();
-    }
-    cdl.await();
-  }
+
 }

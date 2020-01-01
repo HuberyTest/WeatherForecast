@@ -1,7 +1,6 @@
 package com.hubery.forecast.service;
 
 import com.hubery.forecast.domain.GeneralWeatherReport;
-import org.springframework.cache.annotation.Cacheable;
 
 
 /**
@@ -14,4 +13,5 @@ public interface WeatherForecastService {
    * @return report
    */
   GeneralWeatherReport queryWeatherReport(String cityId);
+
 }

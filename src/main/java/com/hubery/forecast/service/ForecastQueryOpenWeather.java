@@ -16,9 +16,12 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Implementation for online api provider openweathermap.org
@@ -40,7 +43,8 @@ public class ForecastQueryOpenWeather implements ForecastQuery {
   @PostConstruct
   public void init() throws IOException {
     //Api providers may have different id for each city。So we map them to our own city id in file.
-    idMappings = loadIdMapping();
+    HashMap<String, IdMapping> map = loadIdMapping();
+    idMappings = new ConcurrentHashMap<>(map);
 
     restTemplate = RestClientBuilder.buildRestClient();
   }

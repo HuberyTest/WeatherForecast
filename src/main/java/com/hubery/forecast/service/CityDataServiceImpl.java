@@ -20,18 +20,5 @@ public class CityDataServiceImpl implements CityDataService {
     return cityDataRepository.listCities();
   }
 
-  @Override
-  public void addCity(CityInfo cityInfo) {
-    cityDataRepository.addCity(cityInfo);
-  }
 
-  @Override
-  public void updateCity(CityInfo cityInfo) {
-    cityDataRepository.updateCity(cityInfo);
-  }
-
-  @Override
-  public void removeCity(String cityId) {
-    cityDataRepository.removeCity(cityId);
-  }
 }

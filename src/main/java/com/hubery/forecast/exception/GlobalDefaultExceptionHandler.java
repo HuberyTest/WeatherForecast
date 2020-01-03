@@ -5,6 +5,9 @@ import com.hubery.forecast.api.ErrorCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Provider default exception handling
+ */
 @ControllerAdvice
 public class GlobalDefaultExceptionHandler {
 

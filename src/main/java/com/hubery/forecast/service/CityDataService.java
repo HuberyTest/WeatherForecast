@@ -10,9 +10,4 @@ import java.util.List;
 public interface CityDataService {
   List<CityInfo> listCities();
 
-  void addCity(CityInfo cityInfo);
-
-  void updateCity(CityInfo cityInfo);
-
-  void removeCity(String cityId);
 }

@@ -28,12 +28,21 @@ public class WeatherForecastController {
     this.cityDataService = cityDataService;
   }
 
+  /**
+   * Fetch the city list.
+   * @return City list wrapped in the ApiResult
+   */
   @GetMapping("/cities")
   public ApiResult<List<CityInfo>> listCities() {
     List<CityInfo> cityInfos = cityDataService.listCities();
     return new ApiResult<>(cityInfos);
   }
 
+  /**
+   * Get the latest weather for a city
+   * @param cityId the id of city returned from listCities service.
+   * @return weather report data
+   */
   @GetMapping("/city/{cityId}")
   public ApiResult<GeneralWeatherReport> queryCityWeatherReport(@PathVariable("cityId") String cityId) {
     GeneralWeatherReport report = weatherForecastService.queryWeatherReport(cityId);
